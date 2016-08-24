@@ -40,7 +40,6 @@ class GridLayout extends Component {
   }
 
   render() {
-    console.log("rerender");
 
     return (
       <Grid
