@@ -3,8 +3,10 @@ export const ItemConstants = {
   REMOVE_ITEM: 'REMOVE_ITEM',
 };
 
-export const addItem = () => ({
+export const addItem = (component, props) => ({
   type: ItemConstants.ADD_ITEM,
+  component,
+  props
 });
 
 export const removeItem = i => ({
