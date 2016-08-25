@@ -6,6 +6,7 @@ import App from './components/App';
 
 const root = document.getElementById("root");
 const store = configureStore();
+window.store = store;
 
 render(
     <Provider store={store}>

@@ -5,3 +5,7 @@ const Paragraph = ({ content }) => (
 );
 
 export default Paragraph;
+
+Paragraph.inputTypes = {
+  content: 'text',
+};

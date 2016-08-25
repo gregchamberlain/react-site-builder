@@ -5,6 +5,9 @@ import { saveLayout } from '../actions/LayoutActions';
 import { addItem } from '../actions/ItemsActions';
 import Header from './Header';
 import Paragraph from './Paragraph';
+import Article from './Article';
+import Catalog from './Catalog';
+import Editor from './Editor';
 
 class App extends Component {
 
@@ -15,11 +18,15 @@ class App extends Component {
     };
   }
 
+  addArticle() {
+
+  }
+
   addHeader() {
     const props = {
       content: this.refs.header.value,
     };
-    this.props.addItem(Header, props);
+    this.props.addItem("Header", props);
     this.refs.header.value = "";
   }
 
@@ -27,7 +34,7 @@ class App extends Component {
     const props = {
       content: this.refs.paragraph.value,
     };
-    this.props.addItem(Paragraph, props);
+    this.props.addItem("Paragraph", props);
     this.refs.paragraph.value = "";
   }
 
@@ -37,19 +44,33 @@ class App extends Component {
 
   render() {
     return (
-      <div>
-        <h1>Square Space</h1>
-        <button onClick={this.lockGrid.bind(this)}>{this.state.locked ? "Unlock" : "Lock"}</button>
-        <button onClick={this.addHeader.bind(this)}>Add New Header</button>
-        <input type="text" ref="header"/>
-        <button onClick={this.addParagraph.bind(this)}>Add New Paragraph</button>
-        <textarea ref="paragraph"/>
-        <button onClick={this.props.saveLayout}>Save</button>
-        <GridLayout locked={this.state.locked}/>
+      <div style={styles.container}>
+        <Catalog />
+        <div style={styles.main}>
+          <h1>Square Space</h1>
+          <button onClick={this.lockGrid.bind(this)}>{this.state.locked ? "Unlock" : "Lock"}</button>
+          <button onClick={this.addHeader.bind(this)}>Add New Header</button>
+          <input type="text" ref="header"/>
+          <button onClick={this.addParagraph.bind(this)}>Add New Paragraph</button>
+          <textarea ref="paragraph"/>
+          <button onClick={this.props.saveLayout}>Save</button>
+          <GridLayout locked={this.state.locked}/>
+        </div>
+        <Editor />
       </div>
     );
   }
 }
+
+const styles = {
+  container: {
+    display: "flex",
+  },
+  main: {
+    flex: 1,
+    padding: '0px 10px'
+  }
+};
 
 const mapStateToProps = state => ({
 

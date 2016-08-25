@@ -8,7 +8,7 @@ const items = (state = [], action) => {
         component: action.component,
         i: 'n' + state.length,
         x: 0,
-        y: Infinity, // puts it at the bottom
+        y: 10000, // puts it at the bottom
         w: 2,
         h: 2,
         props: action.props

@@ -3,9 +3,21 @@ import ReactGridLayout, { WidthProvider } from 'react-grid-layout';
 import { connect } from 'react-redux';
 import { changeLayout } from '../actions/LayoutActions';
 import { removeItem } from '../actions/ItemsActions';
+import { openEditor } from '../actions/EditorActions';
 import Header from './Header';
+import Paragraph from './Paragraph';
 import _ from 'lodash';
 const Grid = WidthProvider(ReactGridLayout);
+import Wrapper from './Wrapper';
+import Article from './Article';
+
+window.Header = Header;
+window.Article = Article;
+
+let compMap = {
+  Header,
+  Paragraph,
+};
 
 class GridLayout extends Component {
 
@@ -27,10 +39,14 @@ class GridLayout extends Component {
       cursor: 'pointer'
     };
     let i = el.i;
+    let Comp = compMap[el.component];
     return (
       <div key={i} data-grid={el}>
-        <el.component {...el.props}/>
-        <span className="remove" style={removeStyle} onClick={this.props.removeItem.bind(this, i)}>x</span>
+        <Wrapper
+          openEditor={this.props.openEditor.bind(null, i, Comp.inputTypes)}
+          onRemove={this.props.removeItem.bind(this, i)}>
+          <Comp {...el.props}/>
+        </Wrapper>
       </div>
     );
   }
@@ -63,6 +79,7 @@ const mapSateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   changeLayout: layout => dispatch(changeLayout(layout)),
   removeItem: i => dispatch(removeItem(i)),
+  openEditor: (i, inputTypes) => dispatch(openEditor(i, inputTypes)),
 });
 
 export default connect(

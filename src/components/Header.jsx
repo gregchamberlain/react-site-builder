@@ -5,3 +5,7 @@ const Header = ({ content }) => (
 );
 
 export default Header;
+
+Header.inputTypes = {
+  content: "string",
+};

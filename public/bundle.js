@@ -66,6 +66,7 @@
 	
 	var root = document.getElementById("root");
 	var store = (0, _store2.default)();
+	window.store = store;
 	
 	(0, _reactDom.render)(_react2.default.createElement(
 	    _reactRedux.Provider,
@@ -22318,13 +22319,18 @@
 	
 	var _ItemsReducer2 = _interopRequireDefault(_ItemsReducer);
 	
+	var _EditorReducer = __webpack_require__(222);
+	
+	var _EditorReducer2 = _interopRequireDefault(_EditorReducer);
+	
 	var _redux = __webpack_require__(173);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var RootReducer = (0, _redux.combineReducers)({
 	    layout: _LayoutReducer2.default,
-	    items: _ItemsReducer2.default
+	    items: _ItemsReducer2.default,
+	    editor: _EditorReducer2.default
 	});
 	
 	exports.default = RootReducer;
@@ -22415,7 +22421,7 @@
 	        component: action.component,
 	        i: 'n' + state.length,
 	        x: 0,
-	        y: Infinity, // puts it at the bottom
+	        y: 10000, // puts it at the bottom
 	        w: 2,
 	        h: 2,
 	        props: action.props
@@ -39960,6 +39966,18 @@
 	
 	var _Paragraph2 = _interopRequireDefault(_Paragraph);
 	
+	var _Article = __webpack_require__(221);
+	
+	var _Article2 = _interopRequireDefault(_Article);
+	
+	var _Catalog = __webpack_require__(224);
+	
+	var _Catalog2 = _interopRequireDefault(_Catalog);
+	
+	var _Editor = __webpack_require__(225);
+	
+	var _Editor2 = _interopRequireDefault(_Editor);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -39983,12 +40001,15 @@
 	  }
 	
 	  _createClass(App, [{
+	    key: 'addArticle',
+	    value: function addArticle() {}
+	  }, {
 	    key: 'addHeader',
 	    value: function addHeader() {
 	      var props = {
 	        content: this.refs.header.value
 	      };
-	      this.props.addItem(_Header2.default, props);
+	      this.props.addItem("Header", props);
 	      this.refs.header.value = "";
 	    }
 	  }, {
@@ -39997,7 +40018,7 @@
 	      var props = {
 	        content: this.refs.paragraph.value
 	      };
-	      this.props.addItem(_Paragraph2.default, props);
+	      this.props.addItem("Paragraph", props);
 	      this.refs.paragraph.value = "";
 	    }
 	  }, {
@@ -40010,41 +40031,57 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        null,
+	        { style: styles.container },
+	        _react2.default.createElement(_Catalog2.default, null),
 	        _react2.default.createElement(
-	          'h1',
-	          null,
-	          'Square Space'
+	          'div',
+	          { style: styles.main },
+	          _react2.default.createElement(
+	            'h1',
+	            null,
+	            'Square Space'
+	          ),
+	          _react2.default.createElement(
+	            'button',
+	            { onClick: this.lockGrid.bind(this) },
+	            this.state.locked ? "Unlock" : "Lock"
+	          ),
+	          _react2.default.createElement(
+	            'button',
+	            { onClick: this.addHeader.bind(this) },
+	            'Add New Header'
+	          ),
+	          _react2.default.createElement('input', { type: 'text', ref: 'header' }),
+	          _react2.default.createElement(
+	            'button',
+	            { onClick: this.addParagraph.bind(this) },
+	            'Add New Paragraph'
+	          ),
+	          _react2.default.createElement('textarea', { ref: 'paragraph' }),
+	          _react2.default.createElement(
+	            'button',
+	            { onClick: this.props.saveLayout },
+	            'Save'
+	          ),
+	          _react2.default.createElement(_GridLayout2.default, { locked: this.state.locked })
 	        ),
-	        _react2.default.createElement(
-	          'button',
-	          { onClick: this.lockGrid.bind(this) },
-	          this.state.locked ? "Unlock" : "Lock"
-	        ),
-	        _react2.default.createElement(
-	          'button',
-	          { onClick: this.addHeader.bind(this) },
-	          'Add New Header'
-	        ),
-	        _react2.default.createElement('input', { type: 'text', ref: 'header' }),
-	        _react2.default.createElement(
-	          'button',
-	          { onClick: this.addParagraph.bind(this) },
-	          'Add New Paragraph'
-	        ),
-	        _react2.default.createElement('textarea', { ref: 'paragraph' }),
-	        _react2.default.createElement(
-	          'button',
-	          { onClick: this.props.saveLayout },
-	          'Save'
-	        ),
-	        _react2.default.createElement(_GridLayout2.default, { locked: this.state.locked })
+	        _react2.default.createElement(_Editor2.default, null)
 	      );
 	    }
 	  }]);
 	
 	  return App;
 	}(_react.Component);
+	
+	var styles = {
+	  container: {
+	    display: "flex"
+	  },
+	  main: {
+	    flex: 1,
+	    padding: '0px 10px'
+	  }
+	};
 	
 	var mapStateToProps = function mapStateToProps(state) {
 	  return {};
@@ -40089,13 +40126,27 @@
 	
 	var _ItemsActions = __webpack_require__(191);
 	
+	var _EditorActions = __webpack_require__(223);
+	
 	var _Header = __webpack_require__(218);
 	
 	var _Header2 = _interopRequireDefault(_Header);
 	
+	var _Paragraph = __webpack_require__(219);
+	
+	var _Paragraph2 = _interopRequireDefault(_Paragraph);
+	
 	var _lodash = __webpack_require__(192);
 	
 	var _lodash2 = _interopRequireDefault(_lodash);
+	
+	var _Wrapper = __webpack_require__(220);
+	
+	var _Wrapper2 = _interopRequireDefault(_Wrapper);
+	
+	var _Article = __webpack_require__(221);
+	
+	var _Article2 = _interopRequireDefault(_Article);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -40106,6 +40157,15 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
 	var Grid = (0, _reactGridLayout.WidthProvider)(_reactGridLayout2.default);
+	
+	
+	window.Header = _Header2.default;
+	window.Article = _Article2.default;
+	
+	var compMap = {
+	  Header: _Header2.default,
+	  Paragraph: _Paragraph2.default
+	};
 	
 	var GridLayout = function (_Component) {
 	  _inherits(GridLayout, _Component);
@@ -40134,14 +40194,16 @@
 	        cursor: 'pointer'
 	      };
 	      var i = el.i;
+	      var Comp = compMap[el.component];
 	      return _react2.default.createElement(
 	        'div',
 	        { key: i, 'data-grid': el },
-	        _react2.default.createElement(el.component, el.props),
 	        _react2.default.createElement(
-	          'span',
-	          { className: 'remove', style: removeStyle, onClick: this.props.removeItem.bind(this, i) },
-	          'x'
+	          _Wrapper2.default,
+	          {
+	            openEditor: this.props.openEditor.bind(null, i, Comp.inputTypes),
+	            onRemove: this.props.removeItem.bind(this, i) },
+	          _react2.default.createElement(Comp, el.props)
 	        )
 	      );
 	    }
@@ -40185,6 +40247,9 @@
 	    },
 	    removeItem: function removeItem(i) {
 	      return dispatch((0, _ItemsActions.removeItem)(i));
+	    },
+	    openEditor: function openEditor(i, inputTypes) {
+	      return dispatch((0, _EditorActions.openEditor)(i, inputTypes));
 	    }
 	  };
 	};
@@ -45747,7 +45812,7 @@
 /* 218 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -45762,13 +45827,18 @@
 	var Header = function Header(_ref) {
 	  var content = _ref.content;
 	  return _react2.default.createElement(
-	    'h1',
+	    "h1",
 	    null,
 	    content
 	  );
 	};
 	
 	exports.default = Header;
+	
+	
+	Header.inputTypes = {
+	  content: "string"
+	};
 
 /***/ },
 /* 219 */
@@ -45796,6 +45866,308 @@
 	};
 	
 	exports.default = Paragraph;
+	
+	
+	Paragraph.inputTypes = {
+	  content: 'text'
+	};
+
+/***/ },
+/* 220 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Wrapper = function (_Component) {
+	  _inherits(Wrapper, _Component);
+	
+	  function Wrapper() {
+	    _classCallCheck(this, Wrapper);
+	
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Wrapper).apply(this, arguments));
+	  }
+	
+	  _createClass(Wrapper, [{
+	    key: "render",
+	    value: function render() {
+	      var _props = this.props;
+	      var inputTypes = _props.inputTypes;
+	      var i = _props.i;
+	
+	      return _react2.default.createElement(
+	        "div",
+	        { style: styles.container },
+	        this.props.children,
+	        _react2.default.createElement(
+	          "div",
+	          { style: styles.overlay },
+	          _react2.default.createElement(
+	            "span",
+	            { style: styles.remove, onClick: this.props.onRemove },
+	            "×"
+	          ),
+	          _react2.default.createElement(
+	            "span",
+	            { style: styles.settings, onClick: this.props.openEditor },
+	            "Settings"
+	          ),
+	          _react2.default.createElement("span", { className: "react-resizable-handle" })
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return Wrapper;
+	}(_react.Component);
+	
+	exports.default = Wrapper;
+	
+	
+	var styles = {
+	  overlay: {
+	    position: "absolute",
+	    top: 0,
+	    left: 0,
+	    width: '100%',
+	    height: '100%',
+	    background: 'rgba(0, 0, 0, 0.3)'
+	  },
+	  remove: {
+	    position: "absolute",
+	    top: 5,
+	    right: 10,
+	    color: "#ccc",
+	    cursor: "pointer",
+	    fontWeight: "bold",
+	    fontSize: 20
+	  },
+	  settings: {
+	    position: "absolute",
+	    top: 5,
+	    left: 10,
+	    color: "#ccc",
+	    cursor: "pointer",
+	    fontWeight: "bold",
+	    fontSize: 20
+	  }
+	};
+
+/***/ },
+/* 221 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	// const Article = ({ title, content }) => (
+	//   <div>
+	//     <h1>{title}</h1>
+	//     <p>{content}</p>
+	//   </div>
+	// );
+	
+	var Article = function (_Component) {
+	  _inherits(Article, _Component);
+	
+	  function Article() {
+	    _classCallCheck(this, Article);
+	
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Article).apply(this, arguments));
+	  }
+	
+	  _createClass(Article, [{
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement("div", null);
+	    }
+	  }]);
+	
+	  return Article;
+	}(_react.Component);
+	
+	Article.propTypes = {
+	  title: _react.PropTypes.string,
+	  content: _react.PropTypes.string
+	};
+	
+	Article.defaultProps = {
+	  title: "Sample Title",
+	  content: "Content goes here..."
+	};
+	
+	exports.default = Article;
+
+/***/ },
+/* 222 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _EditorActions = __webpack_require__(223);
+	
+	var defaultState = {
+	  inputTypes: {}
+	};
+	
+	var EditorReducer = function EditorReducer() {
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? defaultState : arguments[0];
+	  var action = arguments[1];
+	
+	  switch (action.type) {
+	    case _EditorActions.OPEN_EDITOR:
+	      return { inputTypes: action.inputTypes, i: action.i };
+	    default:
+	      return state;
+	  }
+	};
+	
+	exports.default = EditorReducer;
+
+/***/ },
+/* 223 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var OPEN_EDITOR = exports.OPEN_EDITOR = 'OPEN_EDITOR';
+	
+	var openEditor = exports.openEditor = function openEditor(i, inputTypes) {
+	  return {
+	    type: OPEN_EDITOR,
+	    i: i,
+	    inputTypes: inputTypes
+	  };
+	};
+
+/***/ },
+/* 224 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var Catalog = function Catalog(props) {
+	  return _react2.default.createElement(
+	    'div',
+	    { style: styles.container },
+	    'Catalog'
+	  );
+	};
+	
+	var styles = {
+	  container: {
+	    width: 200,
+	    background: '#888'
+	  }
+	};
+	exports.default = Catalog;
+
+/***/ },
+/* 225 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRedux = __webpack_require__(194);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var Editor = function Editor(props) {
+	
+	  var inputs = Object.keys(props.inputTypes).map(function (label) {
+	    return _react2.default.createElement(
+	      'label',
+	      { key: label },
+	      label,
+	      _react2.default.createElement('input', { type: 'text' })
+	    );
+	  });
+	
+	  return _react2.default.createElement(
+	    'div',
+	    { style: styles.container },
+	    inputs
+	  );
+	};
+	
+	var styles = {
+	  container: {
+	    width: 200,
+	    background: '#aaa'
+	  }
+	};
+	
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {
+	    id: state.editor.i,
+	    inputTypes: state.editor.inputTypes
+	  };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {};
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Editor);
 
 /***/ }
 /******/ ]);
