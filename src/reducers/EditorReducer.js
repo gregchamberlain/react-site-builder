@@ -1,13 +1,17 @@
-import { OPEN_EDITOR } from '../actions/EditorActions';
+import { OPEN_EDITOR, CLOSE_EDITOR } from '../actions/EditorActions';
+import { ItemConstants } from '../actions/ItemsActions';
 
-const defaultState = {
-  inputTypes: {}
-};
-
-const EditorReducer = (state = defaultState, action) => {
+const EditorReducer = (state = false, action) => {
   switch (action.type) {
     case OPEN_EDITOR:
-      return { inputTypes: action.inputTypes, i: action.i };
+      return action.i;
+    case CLOSE_EDITOR:
+      return false;
+    case ItemConstants.REMOVE_ITEM:
+      if (action.i === state) {
+        return false;
+      }
+      return state;
     default:
       return state;
   }

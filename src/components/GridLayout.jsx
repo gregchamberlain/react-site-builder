@@ -9,8 +9,6 @@ const Grid = WidthProvider(ReactGridLayout);
 import Wrapper from './Wrapper';
 import Catalog from '../catalog';
 
-console.log(Catalog);
-
 class GridLayout extends Component {
 
   constructor(props) {
@@ -37,7 +35,7 @@ class GridLayout extends Component {
       </div>
     );
   }
-  
+
   layoutChange(layout) {
     this.props.changeLayout(layout);
   }
@@ -46,6 +44,7 @@ class GridLayout extends Component {
 
     return (
       <Grid
+        draggableHandle='.draggable-handle'
         margin={[0,0]}
         isDraggable={!this.props.locked}
         isResizable={!this.props.locked}
@@ -61,7 +60,7 @@ class GridLayout extends Component {
 }
 
 const mapSateToProps = state => ({
-  items: state.items,
+  items: Object.keys(state.items).map(key => state.items[key]),
 });
 
 const mapDispatchToProps = dispatch => ({

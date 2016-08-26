@@ -5,7 +5,7 @@ import { saveLayout } from '../actions/LayoutActions';
 import { addItem } from '../actions/ItemsActions';
 import * as Catalog from '../catalog';
 import CatalogContainer from './Catalog';
-import Editor from './Editor';
+import Editor from './Editor/Editor';
 
 class App extends Component {
 
@@ -30,7 +30,7 @@ class App extends Component {
           <button onClick={this.props.saveLayout}>Save</button>
           <GridLayout locked={this.state.locked}/>
         </div>
-        <Editor />
+        { this.props.editor ? <Editor /> : "" }
       </div>
     );
   }
@@ -47,7 +47,7 @@ const styles = {
 };
 
 const mapStateToProps = state => ({
-
+  editor: state.editor
 });
 
 const mapDispatchToProps = dispatch => ({

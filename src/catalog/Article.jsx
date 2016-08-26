@@ -1,20 +1,11 @@
 import React, { PropTypes, Component } from 'react';
 
-// const Article = ({ title, content }) => (
-//   <div>
-//     <h1>{title}</h1>
-//     <p>{content}</p>
-//   </div>
-// );
-
-class Article extends Component {
-  render() {
-    return (
-      <div>
-      </div>
-    );
-  }
-}
+const Article = ({ title, content }) => (
+  <div>
+    <h1>{title}</h1>
+    <p>{content}</p>
+  </div>
+);
 
 Article.propTypes = {
   title: PropTypes.string,

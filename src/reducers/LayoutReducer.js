@@ -1,4 +1,4 @@
-import { LayoutConstants } from '../actions/LayoutActions'
+import { LayoutConstants } from '../actions/LayoutActions';
 
 const layout = (state = [], action) => {
   switch (action.type) {
@@ -10,6 +10,6 @@ const layout = (state = [], action) => {
     default:
       return state;
   }
-}
+};
 
 export default layout;
