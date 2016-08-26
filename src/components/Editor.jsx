@@ -5,8 +5,8 @@ const Editor = (props) => {
 
   const inputs = Object.keys(props.inputTypes).map(label => (
     <label key={label}>
-      {label}
-      <input type="text" />
+      {label.charAt(0).toUpperCase() + label.slice(1)}
+      {props.inputTypes[label] === "string" ?  <input type="text" /> : <textarea />}
     </label>
   ));
 

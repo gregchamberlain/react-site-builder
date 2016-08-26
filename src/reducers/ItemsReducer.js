@@ -9,8 +9,8 @@ const items = (state = [], action) => {
         i: 'n' + state.length,
         x: 0,
         y: 10000, // puts it at the bottom
-        w: 2,
-        h: 2,
+        w: 4,
+        h: 6,
         props: action.props
       }];
     case ItemConstants.REMOVE_ITEM:

@@ -3,10 +3,8 @@ import GridLayout from './GridLayout';
 import { connect } from 'react-redux';
 import { saveLayout } from '../actions/LayoutActions';
 import { addItem } from '../actions/ItemsActions';
-import Header from './Header';
-import Paragraph from './Paragraph';
-import Article from './Article';
-import Catalog from './Catalog';
+import * as Catalog from '../catalog';
+import CatalogContainer from './Catalog';
 import Editor from './Editor';
 
 class App extends Component {
@@ -18,26 +16,6 @@ class App extends Component {
     };
   }
 
-  addArticle() {
-
-  }
-
-  addHeader() {
-    const props = {
-      content: this.refs.header.value,
-    };
-    this.props.addItem("Header", props);
-    this.refs.header.value = "";
-  }
-
-  addParagraph() {
-    const props = {
-      content: this.refs.paragraph.value,
-    };
-    this.props.addItem("Paragraph", props);
-    this.refs.paragraph.value = "";
-  }
-
   lockGrid() {
     this.setState({locked: !this.state.locked});
   }
@@ -45,14 +23,10 @@ class App extends Component {
   render() {
     return (
       <div style={styles.container}>
-        <Catalog />
+        <CatalogContainer />
         <div style={styles.main}>
           <h1>Square Space</h1>
           <button onClick={this.lockGrid.bind(this)}>{this.state.locked ? "Unlock" : "Lock"}</button>
-          <button onClick={this.addHeader.bind(this)}>Add New Header</button>
-          <input type="text" ref="header"/>
-          <button onClick={this.addParagraph.bind(this)}>Add New Paragraph</button>
-          <textarea ref="paragraph"/>
           <button onClick={this.props.saveLayout}>Save</button>
           <GridLayout locked={this.state.locked}/>
         </div>

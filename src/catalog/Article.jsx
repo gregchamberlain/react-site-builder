@@ -26,4 +26,9 @@ Article.defaultProps = {
   content: "Content goes here...",
 };
 
+Article.inputTypes = {
+  title: "string",
+  content: "text",
+};
+
 export default Article;

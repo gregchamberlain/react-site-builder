@@ -1,15 +1,20 @@
 import React, { Component } from 'react';
+import Gear from 'react-icons/lib/fa/cog';
+import Close from 'react-icons/lib/fa/close';
 
 export default class Wrapper extends Component {
 
   render() {
-    const { inputTypes, i} = this.props;
+    const { onRemove, openEditor, children, name } = this.props;
     return (
       <div style={styles.container}>
-        {this.props.children}
+        {children}
         <div style={styles.overlay}>
-          <span style={styles.remove} onClick={this.props.onRemove}>&times;</span>
-          <span style={styles.settings} onClick={this.props.openEditor}>Settings</span>
+          <div style={styles.header}>
+            <Gear style={styles.icon} onClick={openEditor} />
+            <div style={{flex: 1, marginLeft: 10}}>{name}</div>
+            <Close style={styles.icon} onClick={onRemove}/>
+          </div>
           <span className="react-resizable-handle" />
         </div>
       </div>
@@ -26,22 +31,22 @@ const styles = {
     height: '100%',
     background: 'rgba(0, 0, 0, 0.3)'
   },
-  remove: {
+  header: {
     position: "absolute",
-    top: 5,
-    right: 10,
+    display: "flex",
+    alignItems: 'center',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 30,
+    padding: 10,
+    background: 'rgba(0, 0, 0, 0.6)',
     color: "#ccc",
-    cursor: "pointer",
-    fontWeight: "bold",
-    fontSize: 20
+    fontSize: 16,
+    fontWeight: 'bold'
   },
-  settings: {
-    position: "absolute",
-    top: 5,
-    left: 10,
-    color: "#ccc",
-    cursor: "pointer",
-    fontWeight: "bold",
-    fontSize: 20
-  },
+  icon: {
+    fontSize: 20,
+    cursor: 'pointer',
+  }
 };

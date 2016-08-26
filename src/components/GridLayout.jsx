@@ -4,20 +4,12 @@ import { connect } from 'react-redux';
 import { changeLayout } from '../actions/LayoutActions';
 import { removeItem } from '../actions/ItemsActions';
 import { openEditor } from '../actions/EditorActions';
-import Header from './Header';
-import Paragraph from './Paragraph';
 import _ from 'lodash';
 const Grid = WidthProvider(ReactGridLayout);
 import Wrapper from './Wrapper';
-import Article from './Article';
+import Catalog from '../catalog';
 
-window.Header = Header;
-window.Article = Article;
-
-let compMap = {
-  Header,
-  Paragraph,
-};
+console.log(Catalog);
 
 class GridLayout extends Component {
 
@@ -32,17 +24,12 @@ class GridLayout extends Component {
   }
 
   createElement(el) {
-    let removeStyle = {
-      position: 'absolute',
-      right: '2px',
-      top: 0,
-      cursor: 'pointer'
-    };
     let i = el.i;
-    let Comp = compMap[el.component];
+    let Comp = Catalog[el.component];
     return (
       <div key={i} data-grid={el}>
         <Wrapper
+          name={el.component}
           openEditor={this.props.openEditor.bind(null, i, Comp.inputTypes)}
           onRemove={this.props.removeItem.bind(this, i)}>
           <Comp {...el.props}/>
@@ -59,6 +46,7 @@ class GridLayout extends Component {
 
     return (
       <Grid
+        margin={[0,0]}
         isDraggable={!this.props.locked}
         isResizable={!this.props.locked}
         onLayoutChange={this.layoutChange.bind(this)}
