@@ -1,7 +1,8 @@
 import React, { PropTypes, Component } from 'react';
+import Inputs from '../utils/inputs';
 
-const Article = ({ title, content }) => (
-  <div>
+const Article = ({ title, content, textAlign }) => (
+  <div style={{textAlign}}>
     <h1>{title}</h1>
     <p>{content}</p>
   </div>
@@ -10,16 +11,19 @@ const Article = ({ title, content }) => (
 Article.propTypes = {
   title: PropTypes.string,
   content: PropTypes.string,
+  textAlign: PropTypes.string,
 };
 
 Article.defaultProps = {
   title: "Sample Title",
   content: "Content goes here...",
+  textAlign: "left",
 };
 
 Article.inputTypes = {
-  title: "string",
-  content: "text",
+  title: Inputs.string,
+  content: Inputs.text,
+  textAlign: Inputs.select("left", "center", "right"),
 };
 
 export default Article;

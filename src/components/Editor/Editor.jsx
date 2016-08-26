@@ -26,14 +26,25 @@ class Editor extends Component {
     }
   }
 
+  getInput = label => {
+    switch (this.props.inputTypes[label]) {
+      case "string":
+         return <input type="text" value={this.state[label]} onChange={this.update(label)}/>
+      case "text":
+        return <textarea value={this.state[label]} onChange={this.update(label)} />
+      case "number":
+        return <input type="number" value={this.state[label]} onChange={this.update(label)}/>
+      default:
+
+    }
+  }
+
   render() {
 
     const inputs = Object.keys(this.props.inputTypes).map(label => (
       <label key={label} style={{textAlign: 'center'}}>
-        {label.charAt(0).toUpperCase() + label.slice(1)}
-        {this.props.inputTypes[label] === "string" ?
-        <input type="text" value={this.state[label]} onChange={this.update(label)}/> :
-        <textarea value={this.state[label]} onChange={this.update(label)} />}
+        {label.charAt(0).toUpperCase() + label.slice(1)}<br/>
+        {this.props.inputTypes[label](this.state[label], this.update(label))}
       </label>
     ));
 
@@ -60,7 +71,7 @@ const styles = {
     flexDirection: 'column',
     alignItems: 'center',
     width: 300,
-    background: 'rgba(100,100,100,0.8)',
+    background: 'rgba(200,200,200,0.8)',
     boxShadow: '0 0 10px black'
   },
   header: {

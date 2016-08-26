@@ -46215,19 +46215,24 @@
 	
 	var _Article2 = _interopRequireDefault(_Article);
 	
+	var _Image = __webpack_require__(297);
+	
+	var _Image2 = _interopRequireDefault(_Image);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.default = {
 	  Header: _Header2.default,
 	  Paragraph: _Paragraph2.default,
-	  Article: _Article2.default
+	  Article: _Article2.default,
+	  Image: _Image2.default
 	};
 
 /***/ },
 /* 230 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -46237,13 +46242,18 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _inputs = __webpack_require__(298);
+	
+	var _inputs2 = _interopRequireDefault(_inputs);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var Header = function Header(_ref) {
 	  var content = _ref.content;
+	  var textAlign = _ref.textAlign;
 	  return _react2.default.createElement(
-	    "h1",
-	    null,
+	    'h1',
+	    { style: { textAlign: textAlign } },
 	    content
 	  );
 	};
@@ -46252,15 +46262,18 @@
 	
 	
 	Header.inputTypes = {
-	  content: "string"
+	  content: _inputs2.default.string,
+	  textAlign: _inputs2.default.select("left", "center", "right")
 	};
 	
 	Header.propTypes = {
-	  content: _react.PropTypes.string
+	  content: _react.PropTypes.string,
+	  textAlign: _react.PropTypes.string
 	};
 	
 	Header.defaultProps = {
-	  content: ""
+	  content: "Your header here...",
+	  textAlign: "left"
 	};
 
 /***/ },
@@ -46277,13 +46290,18 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _inputs = __webpack_require__(298);
+	
+	var _inputs2 = _interopRequireDefault(_inputs);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var Paragraph = function Paragraph(_ref) {
 	  var content = _ref.content;
+	  var textAlign = _ref.textAlign;
 	  return _react2.default.createElement(
 	    'p',
-	    null,
+	    { style: { textAlign: textAlign } },
 	    content
 	  );
 	};
@@ -46292,22 +46310,25 @@
 	
 	
 	Paragraph.inputTypes = {
-	  content: 'text'
+	  content: _inputs2.default.text,
+	  textAlign: _inputs2.default.select('left', 'center', 'right')
 	};
 	
 	Paragraph.propTypes = {
-	  content: _react.PropTypes.string
+	  content: _react.PropTypes.string,
+	  textAlign: _react.PropTypes.string
 	};
 	
 	Paragraph.defaultProps = {
-	  content: ""
+	  content: "Your content here...",
+	  textAlign: "left"
 	};
 
 /***/ },
 /* 232 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -46317,21 +46338,26 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _inputs = __webpack_require__(298);
+	
+	var _inputs2 = _interopRequireDefault(_inputs);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var Article = function Article(_ref) {
 	  var title = _ref.title;
 	  var content = _ref.content;
+	  var textAlign = _ref.textAlign;
 	  return _react2.default.createElement(
-	    "div",
-	    null,
+	    'div',
+	    { style: { textAlign: textAlign } },
 	    _react2.default.createElement(
-	      "h1",
+	      'h1',
 	      null,
 	      title
 	    ),
 	    _react2.default.createElement(
-	      "p",
+	      'p',
 	      null,
 	      content
 	    )
@@ -46340,17 +46366,20 @@
 	
 	Article.propTypes = {
 	  title: _react.PropTypes.string,
-	  content: _react.PropTypes.string
+	  content: _react.PropTypes.string,
+	  textAlign: _react.PropTypes.string
 	};
 	
 	Article.defaultProps = {
 	  title: "Sample Title",
-	  content: "Content goes here..."
+	  content: "Content goes here...",
+	  textAlign: "left"
 	};
 	
 	Article.inputTypes = {
-	  title: "string",
-	  content: "text"
+	  title: _inputs2.default.string,
+	  content: _inputs2.default.text,
+	  textAlign: _inputs2.default.select("left", "center", "right")
 	};
 	
 	exports.default = Article;
@@ -46411,6 +46440,19 @@
 	      };
 	    };
 	
+	    _this.getInput = function (label) {
+	      switch (_this.props.inputTypes[label]) {
+	        case "string":
+	          return _react2.default.createElement('input', { type: 'text', value: _this.state[label], onChange: _this.update(label) });
+	        case "text":
+	          return _react2.default.createElement('textarea', { value: _this.state[label], onChange: _this.update(label) });
+	        case "number":
+	          return _react2.default.createElement('input', { type: 'number', value: _this.state[label], onChange: _this.update(label) });
+	        default:
+	
+	      }
+	    };
+	
 	    _this.state = props.props;
 	    return _this;
 	  }
@@ -46432,7 +46474,8 @@
 	          'label',
 	          { key: label, style: { textAlign: 'center' } },
 	          label.charAt(0).toUpperCase() + label.slice(1),
-	          _this2.props.inputTypes[label] === "string" ? _react2.default.createElement('input', { type: 'text', value: _this2.state[label], onChange: _this2.update(label) }) : _react2.default.createElement('textarea', { value: _this2.state[label], onChange: _this2.update(label) })
+	          _react2.default.createElement('br', null),
+	          _this2.props.inputTypes[label](_this2.state[label], _this2.update(label))
 	        );
 	      });
 	
@@ -46472,7 +46515,7 @@
 	    flexDirection: 'column',
 	    alignItems: 'center',
 	    width: 300,
-	    background: 'rgba(100,100,100,0.8)',
+	    background: 'rgba(200,200,200,0.8)',
 	    boxShadow: '0 0 10px black'
 	  },
 	  header: {
@@ -50620,6 +50663,112 @@
 	
 	exports.default = FaArrows;
 	module.exports = exports['default'];
+
+/***/ },
+/* 297 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _inputs = __webpack_require__(298);
+	
+	var _inputs2 = _interopRequireDefault(_inputs);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var Image = function Image(_ref) {
+	  var url = _ref.url;
+	  var padding = _ref.padding;
+	  return _react2.default.createElement(
+	    'div',
+	    { style: { padding: parseInt(padding), width: '100%', height: '100%', position: 'absolute' } },
+	    _react2.default.createElement('div', { style: { backgroundRepeat: 'no-repeat', background: 'url(' + url + ')', width: '100%', height: '100%', backgroundSize: 'cover', backgroundPosition: 'center' } })
+	  );
+	};
+	// const Image = ({ url }) => (
+	//   <img src={url} alt="" width="100%" height="100%"/>
+	// );
+	
+	exports.default = Image;
+	
+	
+	Image.inputTypes = {
+	  url: _inputs2.default.string,
+	  padding: _inputs2.default.number
+	};
+	
+	Image.propTypes = {
+	  url: _react.PropTypes.string,
+	  padding: _react.PropTypes.string
+	};
+	
+	Image.defaultProps = {
+	  url: 'https://newevolutiondesigns.com/images/freebies/cool-wallpaper-1.jpg',
+	  padding: "0"
+	};
+
+/***/ },
+/* 298 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var string = function string(value, onChange) {
+	  return _react2.default.createElement("input", { type: "text", onChange: onChange, value: value });
+	};
+	
+	var text = function text(value, onChange) {
+	  return _react2.default.createElement("textarea", { onChange: onChange, value: value });
+	};
+	
+	var number = function number(value, onChange) {
+	  return _react2.default.createElement("input", { type: "number", onChange: onChange, value: value });
+	};
+	
+	var select = function select() {
+	  for (var _len = arguments.length, options = Array(_len), _key = 0; _key < _len; _key++) {
+	    options[_key] = arguments[_key];
+	  }
+	
+	  return function (value, onChange) {
+	    return _react2.default.createElement(
+	      "select",
+	      { value: value, onChange: onChange },
+	      options.map(function (option) {
+	        return _react2.default.createElement(
+	          "option",
+	          { value: option, key: option },
+	          option
+	        );
+	      })
+	    );
+	  };
+	};
+	
+	exports.default = {
+	  string: string,
+	  text: text,
+	  number: number,
+	  select: select
+	};
 
 /***/ }
 /******/ ]);

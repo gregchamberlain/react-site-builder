@@ -1,19 +1,23 @@
 import React, { PropTypes } from 'react';
+import Inputs from '../utils/inputs';
 
-const Paragraph = ({ content }) => (
-  <p>{content}</p>
+const Paragraph = ({ content, textAlign }) => (
+  <p style={{textAlign}}>{content}</p>
 );
 
 export default Paragraph;
 
 Paragraph.inputTypes = {
-  content: 'text',
+  content: Inputs.text,
+  textAlign: Inputs.select('left', 'center', 'right'),
 };
 
 Paragraph.propTypes = {
-  content: PropTypes.string
+  content: PropTypes.string,
+  textAlign: PropTypes.string,
 };
 
 Paragraph.defaultProps = {
-  content: ""
+  content: "Your content here...",
+  textAlign: "left",
 };
